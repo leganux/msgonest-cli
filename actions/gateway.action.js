@@ -186,13 +186,14 @@ let create = async function ({ path_ }) {
     for (let item of json.functions) {
         let microservice = _.snakeCase(item.name)
         let microserviceCap = (_.startCase(item.name)).replaceAll(' ', '')
+        let microserviceCapLink = (_.lowerCase(item.enpoint)).replaceAll(' ', '-').replaceAll('_', '-')
         await exportRouteApi(path.join(APIGatewayServiceFolder, microservice + '.go'), item.name, item.fieldsRequest, microserviceLower, item.method)
 
         let metod = v.capitalize(v.lowerCase(item.method))
         if (item.needs_middleware) {
-            routes = routes + ` p.${metod}("${item.enpoint}", svc.${microserviceCap}) \n `;
+            routes = routes + ` p.${metod}("${microserviceCapLink}", svc.${microserviceCap}) \n `;
         } else {
-            routes = routes + ` a.${metod}("${item.enpoint}", svc.${microserviceCap}) \n `;
+            routes = routes + ` a.${metod}("${microserviceCapLink}", svc.${microserviceCap}) \n `;
         }
 
 
