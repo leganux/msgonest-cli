@@ -10,8 +10,8 @@ async function insertPrivateMethodDynamicCodeAPI(filePath, newCode) {
         // Read the file
         let data = await fs.readFileSync(filePath, 'utf8');
 
-        // Regular expression to find the last occurrence of a private method
-        const privateMethodPattern = /private\s+\w+\([^\)]*\):\s*Promise<[^\>]+>\s*\{[^}]*\}\s*/g;
+        // Regular expression to find the last occurrence of a public method
+        const privateMethodPattern = /public\s+\w+\([^\)]*\):\s*Promise<[^\>]+>\s*\{[^}]*\}\s*/g;
         let lastMatchIndex = -1;
         let match;
 
@@ -28,7 +28,7 @@ async function insertPrivateMethodDynamicCodeAPI(filePath, newCode) {
             await fs.writeFileSync(filePath, newContent, 'utf8');
             console.log('Code added successfully.');
         } else {
-            console.log('No private methods found.');
+            console.log('No public methods found.');
         }
     } catch (err) {
         console.error('Error:', err);
@@ -102,7 +102,7 @@ let create = async function ({ path_ }) {
         let microserviceCap = (_.startCase(item.name)).replaceAll(' ', '')
         let microserviceCamel = (_.camelCase(item.name))
         codeController = codeController + `@GrpcMethod(${v.upperCase(json.microservice)}_SERVICE_NAME, '${microserviceCap}')
-            private ${microserviceCamel}(payload: ${microserviceCap}RequestDto): Promise<${microserviceCap}Response> {
+            public async ${microserviceCamel}(payload: ${microserviceCap}RequestDto): Promise<${microserviceCap}Response> {
             return this.service.${microserviceCamel}(payload);
             }\n`;
         codeService = codeService + `private ${microserviceCamel}(payload: ${microserviceCap}RequestDto): Promise<${microserviceCap}Response> {
@@ -154,7 +154,7 @@ let create = async function ({ path_ }) {
 
     }
 
-    await insertPrivateMethodDynamicCodeAPI(APIControllerFile, codeController)
+    await insertPrivateMethodDynamicCodeService(APIControllerFile, codeController)
     await insertPrivateMethodDynamicCodeService(APIServiceFile, codeService)
     await insertGRPCDynamicCodeMessage(APIDtoFile, codeDTOs)
 
