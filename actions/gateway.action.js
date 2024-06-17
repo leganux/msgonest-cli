@@ -25,6 +25,7 @@ async function exportRouteApi(path, name, fieldsRequest, microservice, method) {
         let query_params = fieldsRequest?.filter(item => item.source == 'query') || []
 
         let serviceName = (_.startCase(name)).replaceAll(' ', '')
+        let serviceNameForLink = (_.lowerCase(name)).replaceAll(' ', '-')
 
         let iner_body = ''
         let body_params_send = ''
@@ -107,7 +108,7 @@ async function exportRouteApi(path, name, fieldsRequest, microservice, method) {
         ${doc_query_func}
         // @Success		      200		  {object}	protocol.${serviceName}Response
         // @Failure		      400		  {object}	protocol.${serviceName}Response
-        // @Router		      /${_.lowerCase(microservice)}/${serviceName}  [${_.lowerCase(method)}]
+        // @Router		      /${_.lowerCase(microservice)}/${serviceNameForLink}  [${_.lowerCase(method)}]
         func ${serviceName}(ctx *fiber.Ctx, c protocol.${_.capitalize(_.lowerCase(microservice))}ServiceClient) error {
             ${body_func} ${query_func}
         res, gatewayError := c.${serviceName}(context.Background(), &protocol.${serviceName}Request{
@@ -156,7 +157,7 @@ async function insertAPIGatewayRoutesFunctions(filePath, newCode) {
 }
 
 let create = async function ({ path_ }) {
-   
+
 
     let json = await validateAndExtractJson(path_[0])
     if (!json) {
