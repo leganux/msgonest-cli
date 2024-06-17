@@ -110,7 +110,7 @@ async function exportRouteApi(path, name, fieldsRequest, microservice, method) {
         // @Router		      /${_.lowerCase(microservice)}/${serviceName}  [${_.lowerCase(method)}]
         func ${serviceName}(ctx *fiber.Ctx, c protocol.${_.capitalize(_.lowerCase(microservice))}ServiceClient) error {
             ${body_func} ${query_func}
-        res, gatewayError := c.${serviceName}(context.Background(), &protocol.${serviceName}{
+        res, gatewayError := c.${serviceName}(context.Background(), &protocol.${serviceName}Request{
 		${body_params_send} ${query_params_send}
         })
         return utils.SendResponse(ctx, res, gatewayError)
