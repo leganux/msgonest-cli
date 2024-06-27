@@ -220,6 +220,16 @@ rumorcli api -p /absolute/path/of/json/template.json
 
 
 
+## How to create a new  microservices
+
+Generates automatically the code for create a new microservice
+```bash
+rumorcli microservice -n < ms_name > -p < [api,gateway,grpc,full] >
+ ```
+By default this command creates a microservice in full mode for all projects
+
+
+
  ## Notes
 - The rumor-cli covers approximately 95% of the necessary code for a microservices project. However, it is essential to manually validate that the code generation was executed successfully.
 

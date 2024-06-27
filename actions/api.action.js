@@ -105,7 +105,7 @@ let create = async function ({ path_ }) {
             public async ${microserviceCamel}(payload: ${microserviceCap}RequestDto): Promise<${microserviceCap}Response> {
             return this.service.${microserviceCamel}(payload);
             }\n`;
-        codeService = codeService + `private ${microserviceCamel}(payload: ${microserviceCap}RequestDto): Promise<${microserviceCap}Response> {
+        codeService = codeService + `public async ${microserviceCamel}(payload: ${microserviceCap}RequestDto): Promise<${microserviceCap}Response> {
             try{
              return responses.ok
             }catch(err){
