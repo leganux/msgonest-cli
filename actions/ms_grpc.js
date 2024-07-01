@@ -6,10 +6,11 @@ let os = require('os');
 
 const fsextra = require('fs-extra');
 
+const { ensureFileExists } = require('../function/common');
 
 async function insertGRPCDynamicCodeMessage(filePath, newCode) {
     try {
-
+        await ensureFileExists(filePath)
         await fs.writeFileSync(filePath, newCode, 'utf8');
         console.log('Code added successfully.');
 

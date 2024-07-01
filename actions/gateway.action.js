@@ -3,7 +3,7 @@ let fs = require('fs')
 let v = require('voca')
 let _ = require('lodash');
 
-let { validateAndExtractJson } = require('./../function/common')
+let { validateAndExtractJson, ensureFileExists } = require('./../function/common')
 
 
 async function exportRouteApi(path, name, fieldsRequest, microservice, method) {
@@ -53,6 +53,9 @@ async function exportRouteApi(path, name, fieldsRequest, microservice, method) {
                 }
                 else if (item.type == 'enum') {
                     type = 'protocol.' + nameField
+                }
+                else if (item.type == 'boolean') {
+                    type = 'bool'
                 } else {
                     type = v.lowerCase(item.type)
                 }
@@ -132,6 +135,7 @@ async function exportRouteApi(path, name, fieldsRequest, microservice, method) {
 
 
 async function insertAPIGatewayRoutes(filePath, newCode) {
+    await ensureFileExists(filePath)
     try {
         // Read the .proto file
         let data = await fs.readFileSync(filePath, 'utf8');
@@ -145,6 +149,7 @@ async function insertAPIGatewayRoutes(filePath, newCode) {
 }
 
 async function insertAPIGatewayRoutesFunctions(filePath, newCode) {
+    await ensureFileExists(filePath)
     try {
         // Read the .proto file
         let data = await fs.readFileSync(filePath, 'utf8');

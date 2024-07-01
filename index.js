@@ -56,10 +56,12 @@ program
     .option('-n, --name <name...>', 'The name of new microservice')
     .option('-p, --project <project...>', 'The project where the code will be implemented (grpc, gateway, api) If not set will be ALL ')
     .action(function ({ name, project }) {
+
         if (!project || project.legth < 1) {
             ms_grpc({ name })
             ms_gateway({ name })
             ms_api({ name })
+            return
         }
         project = project[0]
         if (project == 'grpc') {

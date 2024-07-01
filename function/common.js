@@ -7,8 +7,23 @@ const path = require("path");
 function questionAsync(prompt_) {
     return prompt(prompt_);
 }
+async function ensureFileExists(filePath) {
+    try {
+        await fs.accessSync(filePath);
+        console.log('File already exists.');
+    } catch (err) {
+        // File doesn't exist, create a new empty file
+        try {
+            await fs.writeFileSync(filePath, '');
+            console.log('File created successfully.');
+        } catch (writeErr) {
+            console.error('Error creating file:', writeErr);
+        }
+    }
+}
 
 module.exports = {
+    ensureFileExists,
     questionAsync,
     validateAndExtractJson: async function (path_) {
         const userHomeDir = os.homedir();

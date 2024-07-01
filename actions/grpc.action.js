@@ -2,7 +2,7 @@ let path = require('path')
 let fs = require('fs')
 let v = require('voca')
 let _ = require('lodash');
-let { validateAndExtractJson } = require('./../function/common')
+let { validateAndExtractJson ,ensureFileExists} = require('./../function/common')
 
 
 
@@ -31,7 +31,7 @@ async function constructMessages(arr, nameGeneral) {
         let type = ''
         if (jtem.type == 'object') {
             messagesGeneral = messagesGeneral + await constructMessages(jtem.children, jtem.name)
-            type = v.capitalize(jtem.name)
+            type = v.capitalize(v.snakeCase(jtem.name))
         }
         else if (jtem.type == 'enum') {
             nameValue = v.capitalize(jtem.name)
@@ -45,7 +45,9 @@ async function constructMessages(arr, nameGeneral) {
             type = v.capitalize(jtem.name)
             EnumGeneral = EnumGeneral + innerEnum
         }
-        else {
+        else if (jtem.type == 'boolean') {
+            type = 'bool'
+        } else {
             type = v.lowerCase(jtem.type)
         }
         grpcMessage = grpcMessage + `\n  ${array} ${optional} ${type} ${name} = ${requestCount};\n `
@@ -60,6 +62,7 @@ async function constructMessages(arr, nameGeneral) {
 
 async function insertGRPCDynamicCode(filePath, newCode) {
     try {
+        await ensureFileExists(filePath)
         // Read the .proto file
         let data = await fs.readFileSync(filePath, 'utf8');
 
@@ -91,6 +94,7 @@ async function insertGRPCDynamicCode(filePath, newCode) {
 
 async function insertGRPCDynamicCodeMessage(filePath, newCode) {
     try {
+        await ensureFileExists(filePath)
         // Read the .proto file
         let data = await fs.readFileSync(filePath, 'utf8');
         const newContent = data + newCode
@@ -112,7 +116,7 @@ let create = async function ({ path_ }) {
         throw new Error('Error on reading json file')
     }
 
-  
+
 
 
     let pathGRPC = path.resolve(json.base_grpc_folder)

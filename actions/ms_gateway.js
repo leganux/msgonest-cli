@@ -4,12 +4,13 @@ let v = require('voca')
 let _ = require('lodash');
 let os = require('os');
 const fsextra = require('fs-extra');
-const common = require('../function/common');
+const { ensureFileExists } = require('../function/common');
+
 
 
 async function insertgateway(filePath, newCode) {
     try {
-
+        await ensureFileExists(filePath)
         await fs.writeFileSync(filePath, newCode, 'utf8');
         console.log('Code added successfully.');
 
