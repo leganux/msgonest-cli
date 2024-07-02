@@ -2,7 +2,7 @@ let path = require('path')
 let fs = require('fs')
 let v = require('voca')
 let _ = require('lodash');
-let { validateAndExtractJson ,ensureFileExists} = require('./../function/common')
+let { validateAndExtractJson, ensureFileExists } = require('./../function/common')
 
 
 
@@ -24,14 +24,14 @@ async function constructMessages(arr, nameGeneral) {
         }
 
         let optional = ''
-        let name = v.camelCase(jtem.name)
-        if (jtem.nullable) {
+        let name = v.snakeCase(jtem.name)
+        if (jtem.nullable && !jtem.isArray) {
             optional = ' optional '
         }
         let type = ''
         if (jtem.type == 'object') {
             messagesGeneral = messagesGeneral + await constructMessages(jtem.children, jtem.name)
-            type = v.capitalize(v.snakeCase(jtem.name))
+            type = v.capitalize(v.camelCase(jtem.name))
         }
         else if (jtem.type == 'enum') {
             nameValue = v.capitalize(jtem.name)
