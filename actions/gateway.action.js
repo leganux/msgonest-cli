@@ -211,9 +211,9 @@ let create = async function ({ path_ }) {
 
         let metod = v.capitalize(v.lowerCase(item.method))
         if (item.needs_middleware) {
-            routes = routes + ` p.${metod}("${microserviceCapLink}", svc.${microserviceCap}) \n `;
+            routes = routes + ` p.${metod}("${item.enpoint}", svc.${microserviceCap}) \n `;
         } else {
-            routes = routes + ` a.${metod}("${microserviceCapLink}", svc.${microserviceCap}) \n `;
+            routes = routes + ` a.${metod}("${item.enpoint}", svc.${microserviceCap}) \n `;
         }
 
 
