@@ -23,6 +23,7 @@ async function exportRouteApi(path, name, fieldsRequest, microservice, method) {
 
         let body_params = fieldsRequest?.filter(item => item.source == 'body') || []
         let query_params = fieldsRequest?.filter(item => item.source == 'query') || []
+        let params_params = fieldsRequest?.filter(item => item.source == 'params') || []
 
         let serviceName = (_.startCase(name)).replaceAll(' ', '')
         let serviceNameForLink = (_.lowerCase(name)).replaceAll(' ', '-')
@@ -86,6 +87,8 @@ async function exportRouteApi(path, name, fieldsRequest, microservice, method) {
         let query_func = ''
         let doc_query_func = ''
         let query_params_send = ''
+
+
         if (query_params.length > 0) {
             for (let item of query_params) {
                 let nameField = v.camelCase(item.name)
@@ -93,7 +96,19 @@ async function exportRouteApi(path, name, fieldsRequest, microservice, method) {
 
                 query_func = query_func + `${nameField} := ctx.Query("${nameField}") \n`;
                 query_params_send = query_params_send + `${nameField_capitalize}: ${nameField},`
-                doc_query_func = doc_query_func + ` // @Param ${nameField}  query  string  true  "The ${nameField} param "  `
+                doc_query_func = doc_query_func + ` // @Param ${nameField}  query  string  true  "The ${nameField} param " \n `
+            }
+        }
+
+
+        if (params_params.length > 0) {
+            for (let item of params_params) {
+                let nameField = v.camelCase(item.name)
+                let nameField_capitalize = _.startCase(item.name).replaceAll(' ', '')
+
+                query_func = query_func + `${nameField} := ctx.Params("${nameField}") \n`;
+                query_params_send = query_params_send + `${nameField_capitalize}: ${nameField},`
+                doc_query_func = doc_query_func + ` // @Param ${nameField}  params  string  true  "The ${nameField} param " \n `
             }
         }
 
