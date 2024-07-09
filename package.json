@@ -1,6 +1,6 @@
 {
   "name": "rummor_cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "a tool to easy create code for rummor",
   "main": "index.js",
   "scripts": {

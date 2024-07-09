@@ -28,19 +28,6 @@
       "kind": "boolean",
       "mandatory": false,
       "default": true
-    },
-    {
-      "name": "order",
-      "description": "How be ordered in table or view",
-      "kind": "int",
-      "mandatory": false
-    },
-    {
-      "name": "other",
-      "description": "A custom float value",
-      "kind": "float",
-      "mandatory": false,
-      "default": 0.0
     }
   ],
   "seed": [

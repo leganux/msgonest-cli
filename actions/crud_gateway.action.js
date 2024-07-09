@@ -132,7 +132,7 @@ import (
             // @Success		      200		  {object}	protocol.${namePascal}Response
             // @Failure		      400		  {object}	protocol.${namePascal}Response
             // @Router		      /${microserviceKebab}/${nameKebab}  [post]
-            func Create${namePascal}(ctx *fiber.Ctx, c protocol.${namePascal}Client) error {
+            func Create${namePascal}(ctx *fiber.Ctx, c protocol.${microservicePascal}Client) error {
             body := Create${namePascal}Body{}
             if parseError := utils.ParseBody(ctx, &body); parseError != nil {
             return parseError
@@ -199,7 +199,7 @@ import (
             // @Success		      200		  {object}	protocol.${namePascal}Response
             // @Failure		      400		  {object}	protocol.${namePascal}Response
             // @Router		      /${microserviceKebab}/${nameKebab}/{id}  [put]
-            func Update${namePascal}(ctx *fiber.Ctx, c protocol.${namePascal}Client) error {
+            func Update${namePascal}(ctx *fiber.Ctx, c protocol.${microservicePascal}Client) error {
             body := Update${namePascal}Body{}
            
             
@@ -208,7 +208,7 @@ import (
             }
             id := ctx.Params("id")
              
-            res, gatewayError := c.Create${namePascal}(context.Background(), &protocol.Create${namePascal}Request{
+            res, gatewayError := c.Update${namePascal}(context.Background(), &protocol.Update${namePascal}Request{
             ${fieldsRequestSend}
             Id:          id,
             })
@@ -239,11 +239,11 @@ import (
             // @Success		      200		  {object}	protocol.${namePascal}Response
             // @Failure		      400		  {object}	protocol.${namePascal}Response
             // @Router		      /${microserviceKebab}/${nameKebab}/{id}  [get]
-            func Get${namePascal}(ctx *fiber.Ctx, c protocol.${namePascal}Client) error {
+            func Get${namePascal}(ctx *fiber.Ctx, c protocol.${microservicePascal}Client) error {
             
             id := ctx.Params("id")
              
-            res, gatewayError := c.Create${namePascal}(context.Background(), &protocol.Create${namePascal}Request{
+            res, gatewayError := c.Get${namePascal}(context.Background(), &protocol.Create${namePascal}Request{
             Id:          id,
             })
             return utils.SendResponse(ctx, res, gatewayError)
@@ -273,7 +273,7 @@ import (
             // @Success		      200		  {object}	protocol.${namePascal}Response
             // @Failure		      400		  {object}	protocol.${namePascal}Response
             // @Router		      /${microserviceKebab}/${nameKebab}/  [get]
-            func List${namePascal}(ctx *fiber.Ctx, c protocol.${namePascal}Client) error {
+            func List${namePascal}(ctx *fiber.Ctx, c protocol.${microservicePascal}Client) error {
                 query, parseError := utils.ParseQuery(ctx)
                 if parseError != nil {
                     return parseError
@@ -307,7 +307,7 @@ import (
             // @Success		      200		  {object}	protocol.${namePascal}Response
             // @Failure		      400		  {object}	protocol.${namePascal}Response
             // @Router		      /${microserviceKebab}/${nameKebab}/{id}  [get]
-            func Delete${namePascal}(ctx *fiber.Ctx, c protocol.${namePascal}Client) error {
+            func Delete${namePascal}(ctx *fiber.Ctx, c protocol.${microservicePascal}Client) error {
                 id := ctx.Params("id")
                  res, gatewayError := c.Delete${namePascal}(context.Background(), &protocol.Delete${namePascal}Request{
                     Id: id,

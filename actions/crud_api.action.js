@@ -80,14 +80,14 @@ import (
 
         let path_app = path.join(path_base, 'apps', microserviceCamel, 'src')
         await fsextra.ensureDirSync(path_app)
-        let path_controller = path.join(path_app, 'controllers', microserviceCamel + '.controller.ts')
-        let path_service = path.join(path_app, 'services', microserviceCamel + '.service.ts')
+        let path_controller = path.join(path_app, 'controllers', microserviceKebab + '.controller.ts')
+        let path_service = path.join(path_app, 'services', microserviceKebab + '.service.ts')
 
         //Check if folder exist and define paths
         let path_seed_folder = path.join(path_app, 'database', 'seeders')
         await fsextra.ensureDirSync(path_seed_folder)
-        let path_dtos = path.join(path_app, 'dtos', microserviceCamel + '.dto.ts')
-        let path_entities = path.join(path_app, 'entities', nameCamel + '.entity.ts')
+        let path_dtos = path.join(path_app, 'dtos', microserviceKebab + '.dto.ts')
+        let path_entities = path.join(path_app, 'entities', nameKebab + '.entity.ts')
         let path_entities_folder = path.join(path_app, 'entities')
         await fsextra.ensureDirSync(path_entities_folder)
 
@@ -359,7 +359,7 @@ import (
         await appendToEnd(path_entities, strEntity)
 
         if (json.seed && Array.isArray(json.seed)) {
-            let path_seed = path.join(path_app, 'database', 'seeders', nameCamel + '.seed.ts')
+            let path_seed = path.join(path_app, 'database', 'seeders', nameKebab + '.seed.ts')
             await ensureFileExists(path_seed, '')
 
             let strSeed = `
@@ -367,7 +367,7 @@ import (
             import { Injectable } from '@nestjs/common';
             import { InjectRepository } from '@nestjs/typeorm';
             import { Repository } from 'typeorm';
-            import { ${namePascal} } from '../../entities/${nameCamel}.entity';
+            import { ${namePascal} } from '../../entities/${nameKebab}.entity';
             
             @Injectable()
             export class SeedDatabase {
