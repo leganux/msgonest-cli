@@ -3,10 +3,11 @@ let fs = require('fs')
 let v = require('voca')
 let _ = require('lodash');
 
-let { validateAndExtractJson, ensureFileExists } = require('./../function/common')
+let { validateAndExtractJson, ensureFileExists } = require('./../function/common');
+const { log } = require('console');
 
 
-async function exportRouteApi(path, name, fieldsRequest, microservice, method) {
+async function exportRouteApi(path, name, fieldsRequest, microservice, method, endpoint) {
 
     try {
 
@@ -99,9 +100,10 @@ async function exportRouteApi(path, name, fieldsRequest, microservice, method) {
                 doc_query_func = doc_query_func + ` // @Param ${nameField}  query  string  true  "The ${nameField} param " \n `
             }
         }
-
+        console.log('params', params_params);
 
         if (params_params.length > 0) {
+
             for (let item of params_params) {
                 let nameField = v.camelCase(item.name)
                 let nameField_capitalize = _.startCase(item.name).replaceAll(' ', '')
@@ -126,7 +128,7 @@ async function exportRouteApi(path, name, fieldsRequest, microservice, method) {
         ${doc_query_func}
         // @Success		      200		  {object}	protocol.${serviceName}Response
         // @Failure		      400		  {object}	protocol.${serviceName}Response
-        // @Router		      /${_.lowerCase(microservice)}/${serviceNameForLink}  [${_.lowerCase(method)}]
+        // @Router		      /${_.lowerCase(microservice)}${endpoint}  [${_.lowerCase(method)}]
         func ${serviceName}(ctx *fiber.Ctx, c protocol.${_.capitalize(_.lowerCase(microservice))}ServiceClient) error {
             ${body_func} ${query_func}
         res, gatewayError := c.${serviceName}(context.Background(), &protocol.${serviceName}Request{
@@ -206,8 +208,7 @@ let create = async function ({ path_ }) {
     for (let item of json.functions) {
         let microservice = _.snakeCase(item.name)
         let microserviceCap = (_.startCase(item.name)).replaceAll(' ', '')
-        let microserviceCapLink = (_.lowerCase(item.enpoint)).replaceAll(' ', '-').replaceAll('_', '-')
-        await exportRouteApi(path.join(APIGatewayServiceFolder, microservice + '.go'), item.name, item.fieldsRequest, microserviceLower, item.method)
+        await exportRouteApi(path.join(APIGatewayServiceFolder, microservice + '.go'), item.name, item.fieldsRequest, microserviceLower, item.method, item.enpoint)
 
         let metod = v.capitalize(v.lowerCase(item.method))
         if (item.needs_middleware) {

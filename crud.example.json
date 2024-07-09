@@ -1,0 +1,62 @@
+{
+  "ops": {
+    "create": true,
+    "getOne": true,
+    "list": true,
+    "delete": true,
+    "update": true
+  },
+  "name": "EventTypes",
+  "description": "The types for events",
+  "microservice": "events",
+  "fields": [
+    {
+      "name": "name",
+      "description": "Its the name of the type of event ",
+      "kind": "string",
+      "mandatory": true
+    },
+    {
+      "name": "description",
+      "description": "Its the description of the type of event ",
+      "kind": "string",
+      "mandatory": false
+    },
+    {
+      "name": "enabled",
+      "description": "If the row is active or not",
+      "kind": "boolean",
+      "mandatory": false,
+      "default": true
+    },
+    {
+      "name": "order",
+      "description": "How be ordered in table or view",
+      "kind": "int",
+      "mandatory": false
+    },
+    {
+      "name": "other",
+      "description": "A custom float value",
+      "kind": "float",
+      "mandatory": false,
+      "default": 0.0
+    }
+  ],
+  "seed": [
+    {
+      "name": "Music",
+      "description": "Is a music event type",
+      "enabled": true,
+      "order": 1,
+      "other": 1.23
+    },
+    {
+      "name": "Opera",
+      "description": "Is a opera event type",
+      "enabled": true,
+      "order": 2,
+      "other": 2.22
+    }
+  ]
+}

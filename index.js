@@ -7,6 +7,7 @@ const gateway = require('./actions/gateway.action')
 const full = require('./actions/full.action')
 
 const configure = require('./actions/configure.action')
+const CRUD = require('./actions/crud.action')
 
 
 const ms_grpc = require('./actions/ms_grpc')
@@ -46,9 +47,10 @@ program
 //TODO: Generate CRUD for a table 
 program
     .command('crud')
-    .description('COMMING SOON:  Will create a basic crud endpoints automatically based on JSON')
-    .option('-p, --path_ <path_...>', 'The full path of json template')
-    .action(full)
+    .description('Will create a basic crud endpoints automatically based on JSON')
+    .option('-p, --project <project...>', 'The project where the code will be implemented (grpc, gateway, api) If not set will be ALL ')
+    .option('-j, --json <json...>', 'The json schema definition for create code ')
+    .action(CRUD)
 
 program
     .command('microservice')

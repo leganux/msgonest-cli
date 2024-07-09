@@ -1,4 +1,3 @@
-
 const prompt = require('prompt-sync')();
 let fs = require('fs')
 const os = require("os");
@@ -7,14 +6,15 @@ const path = require("path");
 function questionAsync(prompt_) {
     return prompt(prompt_);
 }
-async function ensureFileExists(filePath) {
+
+async function ensureFileExists(filePath, content = '') {
     try {
         await fs.accessSync(filePath);
         console.log('File already exists.');
     } catch (err) {
         // File doesn't exist, create a new empty file
         try {
-            await fs.writeFileSync(filePath, '');
+            await fs.writeFileSync(filePath, content);
             console.log('File created successfully.');
         } catch (writeErr) {
             console.error('Error creating file:', writeErr);
@@ -22,7 +22,24 @@ async function ensureFileExists(filePath) {
     }
 }
 
+
+async function appendToEnd(filePath, newCode) {
+    try {
+        await ensureFileExists(filePath)
+        // Read the .proto file
+        let data = await fs.readFileSync(filePath, 'utf8');
+        const newContent = data + newCode
+
+        await fs.writeFileSync(filePath, newContent, 'utf8');
+        console.log('Code added successfully.');
+
+    } catch (err) {
+        console.error('Error:', err);
+    }
+}
+
 module.exports = {
+    appendToEnd,
     ensureFileExists,
     questionAsync,
     validateAndExtractJson: async function (path_) {
@@ -30,20 +47,19 @@ module.exports = {
         let configFile = path.join(userHomeDir, '.rumor_cli', 'config.json')
         if (!fs.existsSync(configFile)) {
             throw new Error('We can not find config file, please execute "configure" comand please  \t')
-
         }
 
-        let configJson = fs.readFileSync(configFile, { encoding: 'utf8', flag: 'r' })
+        let configJson = fs.readFileSync(configFile, {encoding: 'utf8', flag: 'r'})
         configJson = JSON.parse(configJson)
 
         console.log('Configuration readed');
 
-        let json = fs.readFileSync(path_, { encoding: 'utf8', flag: 'r' })
+        let json = fs.readFileSync(path_, {encoding: 'utf8', flag: 'r'})
         json = JSON.parse(json)
 
         console.log('Json file readed');
 
-        json = { ...json, ...configJson }
+        json = {...json, ...configJson}
 
         if (!json.base_grpc_folder || !json.base_API_folder || !json.base_API_GATEWAY_folder ||
             json.base_grpc_folder == '' || json.base_API_folder == '' || json.base_API_GATEWAY_folder == '') {
