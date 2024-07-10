@@ -1,13 +1,13 @@
 {
-  "name": "rummor_cli",
+  "name": "msgonest_cli",
   "version": "1.0.1",
-  "description": "a tool to easy create code for rummor",
+  "description": "a tool to easy create code for msgonest",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "rumorcli": "./index.js"
+    "msgonestcli": "./index.js"
   },
   "keywords": [],
   "author": "@leganux - Angel Erick Cruz Olivera",

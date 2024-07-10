@@ -9,11 +9,11 @@ const readFileAsync = promisify(fs.readFile);
 const writeFileAsync = promisify(fs.writeFile);
 
 module.exports = async function () {
-    console.log('Welcome now we gonna configure rumor cli engine... \n')
+    console.log('Welcome now we gonna configure msgonest cli engine... \n')
     const userHomeDir = os.homedir();
 
-    let configFolder = path.join(userHomeDir, '.rumor_cli')
-    let configFile = path.join(userHomeDir, '.rumor_cli', 'config.json')
+    let configFolder = path.join(userHomeDir, '.msgonest_cli')
+    let configFile = path.join(userHomeDir, '.msgonest_cli', 'config.json')
 
 
     let jsonConfig = {

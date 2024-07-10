@@ -16,7 +16,7 @@ const ms_api = require('./actions/ms_api')
 
 program
     .command('config')
-    .description('Create or update the config file for rumor cli engine')
+    .description('Create or update the config file for msgonest cli engine')
     .action(configure)
 
 program
@@ -44,7 +44,7 @@ program
     .option('-p, --path_ <path_...>', 'The full path of json template')
     .action(api)
 
-//TODO: Generate CRUD for a table 
+//TODO: Generate CRUD for a table
 program
     .command('crud')
     .description('Will create a basic crud endpoints automatically based on JSON')

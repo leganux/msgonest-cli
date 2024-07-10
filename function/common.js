@@ -44,7 +44,7 @@ module.exports = {
     questionAsync,
     validateAndExtractJson: async function (path_) {
         const userHomeDir = os.homedir();
-        let configFile = path.join(userHomeDir, '.rumor_cli', 'config.json')
+        let configFile = path.join(userHomeDir, '.msgonest_cli', 'config.json')
         if (!fs.existsSync(configFile)) {
             throw new Error('We can not find config file, please execute "configure" comand please  \t')
         }
